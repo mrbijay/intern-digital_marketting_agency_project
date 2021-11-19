@@ -41,20 +41,21 @@
   <header id="header" class="header fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="{% url 'home' %}" class="logo d-flex align-items-center">
-        <img src="{% static 'img/logo.png' %}" alt="">
-        <span>BJ-DG Talk</span>
+
+      <a href="#" class="logo d-flex align-items-center">
+        {% for data in header %}
+        <img src="/media/{{data.logo}}" alt="">
+        <span>{{data.title}}</span>
+        {% endfor %}
       </a>
+      
 
       <nav id="navbar" class="navbar">
+
         <ul>
-          <li><a class="nav-link scrollto active" href="{% url 'home' %}">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          <li><a href="{% url 'blog' %}">Blog</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'contact_us' %}">Contact</a></li>
+          {% for data in data %}
+          <li><a class="nav-link scrollto" href="/{{data.href}}" style="text-decoration: none;" >{{data.title}}</a></li>
+          {% endfor %}
           <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               {% if user.id is None %}
@@ -65,13 +66,15 @@
               <li><a href="{% url 'logout' %}">Log Out</a></li>
               {% endif %}
             </ul>
-          </li>
+        </li>
         </ul>
+
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
     </div>
   </header><!-- End Header -->
+<br>
 <br>
 {% block content %}
 
@@ -80,32 +83,18 @@
 <br>
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-
-    <div class="footer-newsletter">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-12 text-center">
-            <h4>Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-          </div>
-          <div class="col-lg-6">
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="footer-top">
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-5 col-md-12 footer-info">
             <a href="index.html" class="logo d-flex align-items-center">
-              <img src="assets/img/logo.png" alt="">
-              <span>FlexStart</span>
+              {% for data in header %}
+            <img src="/media/{{data.logo}}" alt="">
+            <span>{{data.title}}</span>
+               {% endfor %}
             </a>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+            {% for data in footer %}
+            <p>{{data.f_title4}}</p>
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -115,36 +104,37 @@
           </div>
 
           <div class="col-lg-2 col-6 footer-links">
-            <h4>Useful Links</h4>
+            <h4>{{data.f_title1}}</h4>
             <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+              <!-- <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li> -->
             </ul>
           </div>
 
           <div class="col-lg-2 col-6 footer-links">
-            <h4>Our Services</h4>
+            <h4>{{data.f_title2}}</h4>
             <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">{{data.t1}}</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">{{data.t2}}</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">{{data.t3}}</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">{{data.t4}}</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">{{data.t5}}</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-            <h4>Contact Us</h4>
+            <h4>{{data.f_title3}}</h4>
             <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              <p>{{data.a1}}</p>
+              {{data.a2}}
+              <p>{{data.a3}}</p>
+              <strong>Phone:</strong> {{data.a4}}<br>
+              <strong>Email:</strong> {{data.a5}}<br>
             </p>
+            {% endfor %}
 
           </div>
 
@@ -154,14 +144,18 @@
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+        &copy; Copyright <strong>
+          {% for data in header %}
+          <span>{{data.title}}</span>
+          {% endfor %}
+        </strong>. All Rights Reserved
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by <a href="https://www.facebook.com/mrbijaybalalofficial/">Bijay Balal</a>
       </div>
     </div>
   </footer><!-- End Footer -->

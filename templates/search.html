@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 <br>
 <hr>
-<main id="main mt-0" >
+<main id="main mt-0">
   <!-- ======= Breadcrumbs ======= -->
-  <section class="breadcrumbs  mt-0">
+  <section class="breadcrumbs mt-0">
     <div class="container">
       <ol>
         <li><a href="index.html">Home</a></li>
@@ -18,8 +18,10 @@
     <div class="container" data-aos="fade-up">
       <div class="row">
         <div class="col-lg-8 entries">
+          
           <article class="entry">
             {% for data in blog %}
+            
             <div class="entry-img">
               <img src="/media/{{data.thumbnail}}" alt="" class="img-fluid" />
             </div>
@@ -68,16 +70,17 @@
             </ul>
           </div>
         </div>
+       
         <!-- End blog entries list -->
 
         <div class="col-lg-4">
           <div class="sidebar">
             <h3 class="sidebar-title">Search</h3>
             <div class="sidebar-item search-form">
-              <form action="/search">
-                <input name="q" type="text" class="form-control" placeholder="search"/>
-                <button type="submit"><i class="bi bi-search"></i></button>
-              </form>
+                <form action="/search">
+                    <input name="q" type="text" class="form-control" placeholder="search"/>
+                    <button type="submit"><i class="bi bi-search"></i></button>
+                </form>
             </div>
             <!-- End sidebar search formn-->
 
@@ -164,6 +167,7 @@
           <!-- End sidebar -->
         </div>
         <!-- End blog sidebar -->
+        
       </div>
     </div>
   </section>

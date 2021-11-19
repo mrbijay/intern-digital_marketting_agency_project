@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import redirect, render
 
 from accounts.forms import RegistrationForm
@@ -14,9 +15,18 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator 
 from django.core.mail import EmailMessage
 
+# ...............for user profile update
+from .forms import UserUpdateForm
+from .models import Profile
+from base.models import Footer, Header, Navbar
+
 # Create your views here.
 
+
 def register(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     if request.method == 'POST':
         form=RegistrationForm(request.POST)
         if form.is_valid():
@@ -53,9 +63,12 @@ def register(request):
         'form':form,
     }
    
-    return render(request,'accounts/register.html', context)
+    return render(request,'accounts/register.html',{'data':data,'header':header,'footer':footer,'form':form})
 
 def login(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     if request.method =='POST':
         email=request.POST['email']   #name of input 
         password=request.POST['password'] 
@@ -71,7 +84,7 @@ def login(request):
             return redirect('login')
 
 
-    return render(request,'accounts/login.html')
+    return render(request,'accounts/login.html',{'data':data,'header':header,'footer':footer})
 
 @login_required(login_url='login')
 def logout(request):
@@ -95,11 +108,10 @@ def activate(request,uidb64,token):
         messages.error(request, 'Invalid activation link')
         return redirect('register')
 
-@login_required(login_url='login')
-def myprofile(request):
-    return render(request, 'accounts/myprofile.html')
-
 def forgetPassword(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     if request.method == 'POST':
         email=request.POST['email']
         if Account.objects.filter(email=email).exists():
@@ -124,10 +136,13 @@ def forgetPassword(request):
         else:
             messages.error(request, 'Account does not exists.')
             return redirect('forgetPassword')
-    return render(request, 'accounts/forgetPassword.html')
+    return render(request, 'accounts/forgetPassword.html',{'data':data,'header':header,'footer':footer})
 
 
 def resetpassword_validate(request,uidb64,token):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     try:
         uid=urlsafe_base64_decode(uidb64).decode()
         user=Account._default_manager.get(pk=uid)
@@ -143,6 +158,9 @@ def resetpassword_validate(request,uidb64,token):
         return redirect('login')
 
 def resetPassword(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     if request.method == 'POST':
         password=request.POST['password']
         confirm_password=request.POST['confirm_password']
@@ -158,10 +176,13 @@ def resetPassword(request):
         else:
             messages.error(request, 'Password do not match')
             return redirect('resetPassword')
-    return render(request, 'accounts/resetPassword.html')
+    return render(request, 'accounts/resetPassword.html',{'data':data,'header':header,'footer':footer})
 
 @login_required(login_url='login')
 def change_password(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
     if request.method =="POST":
         current_password=request.POST['current_password']
         new_password=request.POST['new_password']
@@ -185,4 +206,32 @@ def change_password(request):
             messages.error(request, 'Password Does Not Match.')
             return redirect('change_password')
 
-    return render(request, 'accounts/change_password.html')
+    return render(request, 'accounts/change_password.html',{'data':data,'header':header,'footer':footer})
+
+
+@login_required(login_url='login')
+def myprofile(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
+    
+    return render(request, 'accounts/myprofile.html',{'data':data,'header':header,'footer':footer})
+
+def edit_profile(request):
+    data=Navbar.objects.filter(is_active=True)
+    header=Header.objects.all()
+    footer=Footer.objects.all()
+    if request.method == 'POST':
+        u_form=UserUpdateForm(request.POST,instance=request.user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request , 'Profile updated Successfully.')
+            return redirect('myprofile')
+
+    else:
+        u_form=UserUpdateForm(instance=request.user)
+
+    context={
+        'u_form': u_form,
+    }
+    return render(request,'accounts/edit_profile.html',{'data':data,'header':header,'footer':footer,'u_form':u_form})

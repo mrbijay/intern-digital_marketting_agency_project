@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.db.models.fields import CharField
+
+
 
 # Create your models here.
 
@@ -52,12 +55,13 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     first_name= models.CharField(max_length=100)
     last_name= models.CharField(max_length=100)
-    p_image = models.ImageField(upload_to='Profile_Image', default='img/pic.jpg')
+    p_image = models.ImageField(upload_to='Profile_Image', default='pic.jpg')
     username= models.CharField(max_length=100, unique=True)
     email= models.EmailField(max_length=100, unique=True)
     phone_number= models.CharField(max_length=50)
     city=models.CharField(max_length=100, default=None,null=0)
     province=models.CharField(max_length=100,  default=None,null=0)
+
 
     #required
     date_joined= models.DateTimeField(auto_now_add=True)
@@ -81,4 +85,13 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_lalel):
         return True
 
+class Profile(models.Model):
+    user=models.OneToOneField(Account, on_delete=models.CASCADE)
+    bio=models.CharField(max_length=255)
+    phone_number=models.CharField(max_length=30, blank=True)
+    dob=models.DateField(null=True, blank=True)
+    profile_image=models.ImageField(default='defaultpp.png', upload_to='profile_pic/', null=True, blank=True)
+
+    def __str__(self):
+        return '%s %s' % (self.user.first_name, self.user.last_name)
 

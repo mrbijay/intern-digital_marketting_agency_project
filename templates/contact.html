@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 <br>
-<br>
 <hr>
 
 <!-- ======= Contact Section ======= -->
@@ -52,7 +51,7 @@
 
       <div class="col-lg-6">
         {% include 'includes/alerts.html' %}
-        <form action="{% url 'contact_us' %}" method="POST">
+        <form action="{% url 'contact' %}" method="POST">
           {% csrf_token %}
           <div class="row gy-4">
 

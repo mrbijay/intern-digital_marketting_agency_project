@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<hr>
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content  mt-0">
+
+    <!-- ============================ COMPONENT REGISTER   ================================= -->
+        <div class="card mx-auto" style="max-width:520px; margin-top:0;">
+          <article class="card-body">
+<!-- 
+            {% include 'includes/alerts.html' %} -->
+            <header class="mb-4"><h4 class="card-title">Edit Your Profile</h4></header>
+            <form  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                          
+                <div class="row form-row">
+                    {{u_form}}
+                    <!-- {{p_form}} -->
+                </div>
+         
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Update  </button>
+                        </div> <!-- form-group// --> 
+
+                    </div>
+                     
+                </div> 
+                {{form.email.errors}}
+                {{form.non_field_errors}}
+                </form>
+            </article><!-- card-body.// -->
+        </div> <!-- card .// -->
+    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+    
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

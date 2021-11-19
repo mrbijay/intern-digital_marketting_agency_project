@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account, Profile
 
 class RegistrationForm(forms.ModelForm):
     password=forms.CharField(widget=forms.PasswordInput(attrs={
@@ -32,3 +32,9 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Password does not match !"
             )
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model=Account
+        fields=['first_name','last_name','phone_number','email','city','province','p_image']
